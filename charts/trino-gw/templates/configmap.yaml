@@ -8,7 +8,7 @@ metadata:
     {{- include "trino-gw.labels" . | nindent 4 }}
 data:
   {{- with .Values.config }}
-  config.yml:
+  config.yml: |
     {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}
