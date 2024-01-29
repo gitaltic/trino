@@ -113,6 +113,7 @@ config:
 
   backendState:
     username: lb_query
+    #password: 
     ssl: false
 
   clusterStatsConfiguration:
