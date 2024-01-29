@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -xeuo pipefail
+
+JVM_OPTIONS=$(echo ${JVM_OPTIONS} | tr -d '\n ')
+
+exec java -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80 --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED ${JVM_OPTIONS} -jar /gateway/gateway-ha.jar server /gateway/config.yml  "$@"

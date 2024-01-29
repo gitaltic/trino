@@ -1,0 +1,150 @@
+# Default values for trino-gw.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+postgresql:
+  enabled: false
+  password: RanD119911
+  fullnameOverride: postgresql-trino-gw
+
+image:
+  repository: sergejuska/trinogw
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "006"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+
+service:
+  type: ClusterIP
+  requestRouter: 8080
+  application: 8090
+  admin: 8091
+
+ingress:
+  enabled: false
+  className: ""
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: trinogw-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: trinogw-example-tls
+  #    hosts:
+  #      - trinogw-example.local
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+topologySpreadConstraints: []
+
+config: 
+  routingRules:
+    rulesEngineEnabled: False
+    # rulesConfigPath: "src/main/resources/rules/routing_rules.yml"
+
+  requestRouter:
+    port: 8080
+    name: trinoRouter
+    historySize: 1000
+    requestBufferSize: 8192
+
+  dataStore:
+    jdbcUrl: jdbc:postgresql://localhost:5432/trino_gateway_db
+    user: trino_gateway_db_admin
+    password: P0stG&es
+    driver: org.postgresql.Driver
+    queryHistoryHoursRetention: 24
+
+  backendState:
+    username: lb_query
+    ssl: false
+
+  clusterStatsConfiguration:
+    useApi: true
+
+  server:
+    applicationConnectors:
+      - type: http
+        port: 8090
+    adminConnectors:
+      - type: http
+        port: 8091
+
+  # This can be adjusted based on the coordinator state
+  monitor:
+    connectionTimeout: 15
+
+  modules:
+    - io.trino.gateway.ha.module.HaGatewayProviderModule
+    - io.trino.gateway.ha.module.ClusterStateListenerModule
+    - io.trino.gateway.ha.module.ClusterStatsMonitorModule
+
+  managedApps:
+    - io.trino.gateway.ha.GatewayManagedApp
+    - io.trino.gateway.ha.clustermonitor.ActiveClusterMonitor
+
+  # Logging settings.
+  logging:
+    # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+    level: INFO
+
+    # Logger-specific levels.
+    loggers:
+      io.trino: DEBUG
+
+    appenders:
+      - type: console
+        filterFactories:
+          - type: Log-filter-factory

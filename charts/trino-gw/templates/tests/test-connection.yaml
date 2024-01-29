@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "trino-gw.fullname" . }}-test-connection"
+  labels:
+    {{- include "trino-gw.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "trino-gw.fullname" . }}:{{ .Values.service.admin }}']
+  restartPolicy: Never

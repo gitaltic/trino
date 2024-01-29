@@ -1,0 +1,14 @@
+#temp for debug
+{{- if .Values.configs }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "trino-gw.fullname" . }}
+  labels:
+    {{- include "trino-gw.labels" . | nindent 4 }}
+data:
+  {{- with .Values.config }}
+  config.yml:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
