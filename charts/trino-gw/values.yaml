@@ -89,6 +89,10 @@ affinity: {}
 
 topologySpreadConstraints: []
 
+env:
+  - name: JVM_OPTIONS
+    value: ""
+
 config: 
   routingRules:
     rulesEngineEnabled: False

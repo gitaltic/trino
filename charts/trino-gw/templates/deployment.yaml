@@ -54,11 +54,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthcheck
-              port: admin-port
+              port: admin
           readinessProbe:
             httpGet:
               path: /healthcheck
-              port: admin-port
+              port: admin
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
