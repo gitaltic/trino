@@ -8,13 +8,13 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.requestRouter }}
-      targetPort: requestRouter
+      targetPort: requestrouter
       protocol: TCP
-      name: requestRouter
+      name: requestrouter
     - port: {{ .Values.service.application }}
       targetPort: application
       protocol: TCP
-      name: application-port
+      name: application
     - port: {{ .Values.service.admin }}
       targetPort: admin
       protocol: TCP
