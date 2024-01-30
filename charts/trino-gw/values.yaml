@@ -55,7 +55,7 @@ ingress:
     - host: trinogw-example.local
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: []
   #  - secretName: trinogw-example-tls
   #    hosts:
