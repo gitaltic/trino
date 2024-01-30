@@ -6,7 +6,7 @@ replicaCount: 1
 
 postgresql:
   enabled: false
-  password: RanD119911
+  password: P0stG&es
   fullnameOverride: postgresql-trino-gw
 
 image:
