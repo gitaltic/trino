@@ -13,7 +13,7 @@ image:
   repository: sergejuska/trinogw
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "006"
+  tag: "007"
 
 imagePullSecrets: []
 nameOverride: ""
