@@ -105,7 +105,7 @@ config:
     requestBufferSize: 8192
 
   dataStore:
-    jdbcUrl: jdbc:postgresql://localhost:5432/gateway
+    jdbcUrl: jdbc:postgresql://postgresql-trino-gw:5432/gateway
     user: postgres
     password: P0stG&es
     driver: org.postgresql.Driver
